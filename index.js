@@ -2,7 +2,10 @@
 let apiKey = "714608e2f44bce5ef2aac9b653b6c111";
 
 
-// Display current date and time
+// Set default to Rotterdam
+accessApi("Rotterdam");
+
+// Display current date and time and forecast days
 let now = new Date();
 
 function displayDate(time, dateHTML) {
@@ -14,6 +17,12 @@ function displayDate(time, dateHTML) {
   let date = time.getDate();
 
   dateHTML.innerHTML = `${day}, ${month} ${date}`;
+
+  // Display forecast days
+  let forecastDays = document.querySelectorAll(".forecast-card h5");
+  for (let i=0; i<5; i++) {
+    forecastDays[i].innerHTML = days[time.getDay() + i + 1];
+  }
 }
 
 function displayTime(time, timeHTML) {
@@ -36,12 +45,29 @@ let currentTime = document.querySelector("#current-time");
 displayTime(now, currentTime);
 
 
+// Display forecast
+function displayForecast(response) {
+  // Display weather icon
+  let forecastIcons = document.querySelectorAll(".forecast-weather-icon");
+  for (let i=0; i<5; i++) {
+    forecastIcons[i].setAttribute("src", `http://openweathermap.org/img/wn/${response.data.daily[i].weather[0].icon}@2x.png`);
+  }
+
+  // Display max and min temperature
+  let maxTemp = document.querySelectorAll(".max-temp");
+  let minTemp = document.querySelectorAll(".min-temp");
+  for (let i=0; i<5; i++) {
+    maxTemp[i].innerHTML = Math.round(response.data.daily[i].temp.max);
+    minTemp[i].innerHTML = Math.round(response.data.daily[i].temp.min);
+  }
+}
+
+
 // Display city name and temperature + details
 function getTemperature(response) {
-
   // Display temperature
   let temperature = Math.round(response.data.main.temp);
-  let tempHtml = document.querySelector("#temp-number");
+  let tempHtml = document.querySelector(".temp-number");
   tempHtml.innerHTML = temperature;
 
   // Display humidity
@@ -77,7 +103,19 @@ function getTemperature(response) {
   // Display weather icon
   let weatherIcon = response.data.weather[0].icon;
   let weatherIconHtml = document.querySelector("#weather-icon");
-  weatherIconHtml.setAttribute("src", `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`)
+  weatherIconHtml.setAttribute("src", `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`);
+
+  // Access forecast function
+  let lat = response.data.coord.lat;
+  let lon = response.data.coord.lon;
+  let forecastApiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=metric&appid=${apiKey}`;
+
+  axios.get(forecastApiUrl).then(displayForecast);
+}
+
+function accessApi(citySearch) {
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&units=metric&appid=${apiKey}`;
+  axios.get(apiUrl).then(getTemperature);
 }
 
 function changeCityName(event) {
@@ -86,9 +124,7 @@ function changeCityName(event) {
   let cityName = document.querySelector("#city-name");
   cityName.innerHTML = citySearch;
 
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&units=metric&appid=${apiKey}`;
-
-  axios.get(apiUrl).then(getTemperature);
+  accessApi(citySearch);  
 }
 
 let searchCityForm = document.querySelector("#search-city-form");
@@ -97,10 +133,6 @@ searchCityForm.addEventListener("submit", changeCityName);
 
 // Display current location and temperature
 function getCurrentTemperature(response) {
-  // let temperature = Math.round(response.data.main.temp);
-  // let tempHtml = document.querySelector("#temp-number");
-  // tempHtml.innerHTML = temperature;
-
   let currentLocation = response.data.name;
   let cityName = document.querySelector("#city-name");
   cityName.innerHTML = currentLocation;

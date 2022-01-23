@@ -45,11 +45,12 @@ body {
 }
 
 .forecast-card {
+  background: #d0e2e2;
   border-radius: 10px;
 }
 
-.forecast-icon {
-  font-size: 48px;
+.forecast-weather-icon {
+  width: 75px;
 }
 
 .github {
