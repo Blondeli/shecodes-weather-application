@@ -131,11 +131,11 @@ currentLocationBtn.addEventListener("click", getCurrentLocation);
 
 //Change to Celsius
 function changeToC() {
-  let tempMetric = document.querySelector(".temp-metric");
-  if (tempMetric.innerHTML === "ºF") {
-    let tempNumber = document.querySelector(".temp-number");
-    tempMetric.innerHTML = "ºC";
-    tempNumber.innerHTML = Math.round((tempNumber.innerHTML - 32) * 5/9);
+  let tempMetric = document.querySelectorAll(".temp-metric");
+  if (tempMetric[0].innerHTML === "ºF") {
+    tempMetric.forEach(element => element.innerHTML = "ºC");
+    let tempNumber = document.querySelectorAll(".temp-number");
+    tempNumber.forEach(element => element.innerHTML = Math.round((element.innerHTML - 32) * 5/9));
   }
 }
 
@@ -144,11 +144,11 @@ celsiusButton.addEventListener("click", changeToC);
 
 //Change to Fahrenheit
 function changeToF() {
-  let tempMetric = document.querySelector(".temp-metric");
-  if (tempMetric.innerHTML === "ºC") {
-    let tempNumber = document.querySelector(".temp-number");
-    tempMetric.innerHTML = "ºF";
-    tempNumber.innerHTML = Math.round((tempNumber.innerHTML * 9/5) + 32);
+  let tempMetric = document.querySelectorAll(".temp-metric");
+  if (tempMetric[0].innerHTML === "ºC") {
+    tempMetric.forEach(element => element.innerHTML = "ºF");
+    let tempNumber = document.querySelectorAll(".temp-number");
+    tempNumber.forEach(element => element.innerHTML = Math.round((element.innerHTML * 9/5) + 32));
   }
 }
 
