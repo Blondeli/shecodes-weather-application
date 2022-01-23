@@ -1,3 +1,7 @@
+html {
+  min-height: 100vh;
+}
+
 body {
   background: radial-gradient(
     328px at 2.9% 15%,
@@ -10,7 +14,7 @@ body {
 }
 
 .main-card {
-  background: rgba(235, 227, 252, 0.4);
+  background: #adecf7;
   border-radius: 20px;
   box-shadow: 10px 10px 20px rgba(9, 9, 84, 0.2);
   max-width: 800px;
@@ -34,10 +38,6 @@ body {
 
 .climate {
   margin-top: 20px;
-}
-
-.main-icon {
-  font-size: 64px;
 }
 
 .forecast {

@@ -31,11 +31,49 @@ displayDate(now, currentDate);
 let currentTime = document.querySelector("#current-time");
 displayTime(now, currentTime);
 
-// Display city name and current temperature
+
+// Display city name and temperature + details
 function getTemperature(response) {
+  
+  // Display temperature
   let temperature = Math.round(response.data.main.temp);
   let tempHtml = document.querySelector("#temp-number");
   tempHtml.innerHTML = temperature;
+
+  // Display humidity
+  let humidity = response.data.main.humidity;
+  let humidityHtml = document.querySelector(".humidity");
+  humidityHtml.innerHTML = humidity;
+
+  // Display wind speed
+  let wind = Math.round(response.data.wind.speed * 3.6);
+  let windHtml = document.querySelector(".wind");
+  windHtml.innerHTML = wind;
+
+  // Display sunrise
+  let sunrise = new Date(response.data.sys.sunrise * 1000);
+  sunrise = sunrise.toLocaleTimeString();
+  sunrise = sunrise.substr(0, 5).replace(":", "h");
+  let sunriseHtml = document.querySelector(".sunrise");
+  sunriseHtml.innerHTML = sunrise;
+
+  // Display sunset
+  let sunset = new Date(response.data.sys.sunset * 1000);
+  sunset = sunset.toLocaleTimeString();
+  sunset = sunset.substr(0, 5).replace(":", "h");
+  let sunsetHtml = document.querySelector(".sunset");
+  sunsetHtml.innerHTML = sunset;
+
+  // Display weather description
+  let weatherDescription = response.data.weather[0].description;
+  weatherDescription = weatherDescription[0].toUpperCase() + weatherDescription.substring(1);
+  let weatherDescriptionHtml = document.querySelector(".weather-description");
+  weatherDescriptionHtml.innerHTML = weatherDescription;
+
+  // Display weather icon
+  let weatherIcon = response.data.weather[0].icon;
+  let weatherIconHtml = document.querySelector("#weather-icon");
+  weatherIconHtml.setAttribute("src", `http://openweathermap.org/img/wn/${weatherIcon}@2x.png`)
 }
 
 function changeCityName(event) {
@@ -52,15 +90,18 @@ function changeCityName(event) {
 let searchCityForm = document.querySelector("#search-city-form");
 searchCityForm.addEventListener("submit", changeCityName);
 
+
 // Display current location and temperature
 function getCurrentTemperature(response) {
-  let temperature = Math.round(response.data.main.temp);
-  let tempHtml = document.querySelector("#temp-number");
-  tempHtml.innerHTML = temperature;
+  // let temperature = Math.round(response.data.main.temp);
+  // let tempHtml = document.querySelector("#temp-number");
+  // tempHtml.innerHTML = temperature;
 
   let currentLocation = response.data.name;
   let cityName = document.querySelector("#city-name");
   cityName.innerHTML = currentLocation;
+
+  getTemperature(response);
 }
 
 function getPosition(position) {

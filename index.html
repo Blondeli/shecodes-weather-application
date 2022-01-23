@@ -57,11 +57,11 @@
 
       <div class="row climate">
         <div class="col" align="center">
-          <h5>
+          <h5 class="weather-description">
             Raining
           </h5>
           <span class="main-icon">
-            🌧
+            <img src="http://openweathermap.org/img/wn/10d@2x.png" alt="Weather icon" id="weather-icon">
           </span>
           <h5 id="current-temperature">
             <span id="temp-number">6</span><span id="temp-metric">ºC</span>
@@ -69,16 +69,14 @@
         </div>
         <div class="col">
           <p>
-            Precipitation: 90%
+            Humidity: <span class="humidity">20</span>%
             <br>
-            Humidity: 20%
-            <br>
-            Wind: 30 km/h
+            Wind: <span class="wind">30</span> km/h
             <br>
             <br>
-            Sunrise: 8h04
+            Sunrise: <span class="sunrise">08h04</span>
             <br>
-            Sunset: 16h32
+            Sunset: <span class="sunset">16h32</span>
           </p>
         </div>
       </div>
@@ -167,8 +165,9 @@
 
   <div class="github">
     <a href="https://github.com/Blondeli/shecodes-weather-application">
-      Link to Github repository
+      Open source code
     </a>
+    by Elisabeth Martin
   </div>
 
   <script src="index.js"></script>
