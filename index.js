@@ -20,6 +20,10 @@ function displayTime(time, timeHTML) {
   let hour = time.getHours();
   let minute = time.getMinutes();
 
+  if (minute < 10) {
+    minute = "0" + minute;
+  }
+
   timeHTML.innerHTML = `${hour}h${minute}`;
 }
 
@@ -34,7 +38,7 @@ displayTime(now, currentTime);
 
 // Display city name and temperature + details
 function getTemperature(response) {
-  
+
   // Display temperature
   let temperature = Math.round(response.data.main.temp);
   let tempHtml = document.querySelector("#temp-number");
